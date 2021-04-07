@@ -7,20 +7,20 @@ app.use(express.json());
 
 let persons = [
     {
-        content: "sadfdsf",
-        important: false,
+        name: "sadfdsf",
+        phone: false,
         id: generateId()
     }, {
-        content: "dsfdsfsdfd",
-        important: true,
+        name: "dsfdsfsdfd",
+        phone: true,
         id: generateId()
     }, {
-        content: "some other",
-        important: true,
+        name: "some other",
+        phone: true,
         id: generateId()
     }, {
-        content: "other more for more information",
-        important: false ,
+        name: "other more for more information",
+        phone: false ,
         id: generateId()
     }
 ];
@@ -76,29 +76,23 @@ app.delete('/api/persons/:id', (request, response) => {
  * @description - create a new person
  */
 app.post('/api/persons', (request, response) => {
-    console.log("entro")
-    console.log(request.body)
     if(notEmptyObj(request.body)) {
-        console.log("si")
-        const { content, important } = request.body
-        if(content && important) {
+        const { name, phone } = request.body
+        if(name && phone) {
             const newPerson = {
-                content,
-                important,
+                name,
+                phone,
                 id: generateId()
             }
             persons = persons.concat(newPerson)
-            return response.json(newPerson)
+            return response.status(201).json(newPerson)
         }else {
             return response.json({ message: "missing arguments" })
         }
     }else {
        return response.json({ message: "empty object" })
     }
-    
 })
-
-
 
 app.listen(3000, () => void console.log('running on port 3000'));
 
