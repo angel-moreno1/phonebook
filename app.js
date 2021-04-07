@@ -8,19 +8,19 @@ app.use(express.json());
 let persons = [
     {
         name: "sadfdsf",
-        phone: false,
+        phone: 534534534,
         id: generateId()
     }, {
         name: "dsfdsfsdfd",
-        phone: true,
+        phone: 435435435,
         id: generateId()
     }, {
         name: "some other",
-        phone: true,
+        phone: 43554353453,
         id: generateId()
     }, {
         name: "other more for more information",
-        phone: false ,
+        phone: 34535435345 ,
         id: generateId()
     }
 ];
