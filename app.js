@@ -19,7 +19,7 @@ let persons = [
         phone: 43554353453,
         id: generateId()
     }, {
-        name: "other more for more information",
+        name: "somename",
         phone: 34535435345 ,
         id: generateId()
     }
@@ -52,7 +52,7 @@ app.get('/api/persons/:id', (request, response) => {
     ) || {};
     notEmptyObj(person)
         ? response.status(200).json(person) 
-        : response.status(404).json({ message: 'not found' });
+        : response.status(404).json({ error: 'not found' });
 });
 
 /** 
@@ -69,28 +69,32 @@ app.delete('/api/persons/:id', (request, response) => {
         return response.status(200).json({ status: 'ok' })
     }
 
-    return response.status(404).json({ message: 'not found' })
+    return response.status(404).json({ error: 'not found' })
 })
 
 /**
  * @description - create a new person
  */
 app.post('/api/persons', (request, response) => {
-    if(notEmptyObj(request.body)) {
+    if(
+        notEmptyObj(request.body) && 
+        /* is not undefined */
+        request.body.name !== void 0 && 
+        request.body.phone !== void 0
+    ) {
         const { name, phone } = request.body
-        if(name && phone) {
-            const newPerson = {
-                name,
-                phone,
-                id: generateId()
-            }
+        const isDuplicate = persons.some(
+            person => person.name.trim().toLowerCase() === name.trim().toLowerCase()
+        )
+        if((name && phone) && !isDuplicate) {
+            const newPerson = { name, phone, id: generateId() }
             persons = persons.concat(newPerson)
             return response.status(201).json(newPerson)
         }else {
-            return response.json({ message: "missing arguments" })
+            return response.status(400).json({ error: 'name must be unique' })
         }
     }else {
-       return response.json({ message: "empty object" })
+       return response.status(400).json({ error: "missing arguments" })
     }
 })
 
