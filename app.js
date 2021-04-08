@@ -1,9 +1,24 @@
 import express from 'express';
 import notEmptyObj from './utils/notEmptyObject.js';
 import generateId from './utils/generateId.js';
+import morgan from 'morgan'
+import cors from 'cors'
 
 const app = express();
+
+app.use(cors())
 app.use(express.json());
+app.use(morgan((tokens, req, res) => {
+    return [
+    tokens.method(req, res),
+    tokens.url(req, res),
+    tokens.status(req, res),
+    tokens.res(req, res, 'content-length'), '-',
+    tokens['response-time'](req, res), 'ms',
+    tokens.method(req, res) === "POST" ? JSON.stringify(req.body) : null
+  ].join(' ')
+}))
+
 
 let persons = [
     {
@@ -98,7 +113,9 @@ app.post('/api/persons', (request, response) => {
     }
 })
 
-app.listen(3000, () => void console.log('running on port 3000'));
+
+const PORT = process.env.PORT || 3001
+app.listen(3000, () => void console.log('running on port', PORT));
 
 
 
