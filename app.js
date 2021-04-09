@@ -23,19 +23,19 @@ app.use(express.static('build'))
 
 let persons = [
     {
-        name: "sadfdsf",
+        name: "adan lovelence",
         phone: 534534534,
         id: generateId()
     }, {
-        name: "dsfdsfsdfd",
+        name: "adan abramov",
         phone: 435435435,
         id: generateId()
     }, {
-        name: "some other",
+        name: "test",
         phone: 43554353453,
         id: generateId()
     }, {
-        name: "somename",
+        name: "Ange Moreno",
         phone: 34535435345 ,
         id: generateId()
     }
